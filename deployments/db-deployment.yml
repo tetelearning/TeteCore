@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tete-db
+  namespace: tete-local
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tete-db
+  template:
+    metadata:
+      labels:
+        app: tete-db
+    spec:
+      containers:
+        - name: tete-db
+          image: mcr.microsoft.com/mssql/server:2017-CU8-ubuntu
+          ports:
+            - containerPort: 1433
+          env:
+            - name: MSSQL_PID
+              value: Express
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
