@@ -36,6 +36,27 @@ dotnet build
 
 # Run the application locally (use Tilt for K8s deployment)
 tilt up
+
+# Initialize database schema and seed data (after tilt up is running)
+curl http://localhost:8080/Init/Migrate   # Create database schema
+curl http://localhost:8080/Init/Populate  # Add base data (admin user, languages, topics)
+```
+
+### Health Monitoring
+```bash
+# Check application and database health
+curl http://localhost:8080/health | jq .
+
+# Expected response when healthy:
+# {
+#   "status": "healthy",
+#   "timestamp": "2025-09-09T20:50:48.358Z", 
+#   "application": "Tete Web API",
+#   "database": {
+#     "status": "connected",
+#     "message": "Database connection successful"
+#   }
+# }
 ```
 
 ### Testing

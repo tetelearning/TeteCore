@@ -27,7 +27,7 @@ namespace Tete.Web
       {
         setup.EnableEndpointRouting = false;
       });
-      services.AddDbContext<Tete.Api.Contexts.MainContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+      services.AddDbContext<Tete.Api.Contexts.MainContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sqlOptions => sqlOptions.EnableRetryOnFailure()));
 
       services.AddHttpsRedirection(opts =>
       {
