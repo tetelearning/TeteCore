@@ -1,0 +1,25 @@
+{
+  "environments": {
+    "local": {
+      "baseUrl": "http://localhost:5001",
+      "description": "Local development environment"
+    },
+    "local-k8s": {
+      "baseUrl": "http://localhost:8080",
+      "description": "Local Kubernetes environment via port-forward"
+    },
+    "dev": {
+      "baseUrl": "https://dev.tetelearning.com",
+      "description": "Development environment"
+    },
+    "staging": {
+      "baseUrl": "https://staging.tetelearning.com",
+      "description": "Staging environment"
+    },
+    "prod": {
+      "baseUrl": "https://tetelearning.com",
+      "description": "Production environment"
+    }
+  },
+  "defaultEnvironment": "local"
+}

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Topic } from 'src/app/models/topic';
-import { Mentorship } from 'src/app/models/mentorship';
-import { User } from 'src/app/models/user';
+import { Topic } from '../../models/topic';
+import { Mentorship } from '../../models/mentorship';
+import { User } from '../../models/user';
 import { InitService } from '../../services/init.service';
 import { UserService } from '../../services/user.service';
 

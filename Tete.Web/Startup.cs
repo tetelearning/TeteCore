@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -52,9 +53,10 @@ namespace Tete.Web
         .PersistDataToDirectory(new System.IO.DirectoryInfo("/var/opt/ssl"), Environment.GetEnvironmentVariable("Certificate_Password"));
 
       // In production, the Angular files will be served from this directory
+      // Angular 18+ outputs to dist/browser/ subdirectory
       services.AddSpaStaticFiles(configuration =>
       {
-        configuration.RootPath = "ClientApp/dist";
+        configuration.RootPath = "ClientApp/dist/browser";
       });
     }
 
@@ -71,9 +73,8 @@ namespace Tete.Web
         app.UseExceptionHandler("/Error");
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
+        app.UseHttpsRedirection();
       }
-
-      app.UseHttpsRedirection();
       app.UseStaticFiles();
       app.UseSpaStaticFiles();
 
@@ -91,10 +92,17 @@ namespace Tete.Web
         // see https://go.microsoft.com/fwlink/?linkid=864501
 
         spa.Options.SourcePath = "ClientApp";
+        spa.Options.DefaultPage = "/index.html";
 
         if (env.IsDevelopment())
         {
-          spa.UseAngularCliServer(npmScript: "start");
+          // In containerized development, serve pre-built static files from the browser subfolder (Angular 18+)
+          spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions
+          {
+            OnPrepareResponse = ctx => {
+              ctx.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+            }
+          };
         }
       });
     }
