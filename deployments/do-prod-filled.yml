@@ -59,7 +59,7 @@ spec:
     spec:
       containers:
         - name: tete-web
-          image: puremunky/tete-web:build-$BUILD_NUMBER
+          image: puremunky/tete-web:build-333
           imagePullPolicy: Always
           ports:
             - containerPort: 80
